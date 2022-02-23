@@ -21,7 +21,7 @@ const styles = StyleSheet.create({
     //alignItems: 'center',
     justifyContent: 'space-between',
     marginTop: 10,
-    backgroundColor: '#f6eff1'
+    backgroundColor: '#f9f9fa'
     // borderWidth: 1,
     // borderColor: 'red',
   }

@@ -8,22 +8,15 @@ import { getFilmsFromApiWithSearchedText } from '../API/TMDBApi'
 
 
 class Search extends React.Component {
-
+    page = 0
+    totalePages = 0
     state = {
         films: [],
         textSearch: " ",
         isLoading: false,
     }
 
-    _showLoading = () => {
-        if (this.state.isLoading) {
-            return (
-                <View style={styles.load_container}>
-                    <ActivityIndicator size="large" color="#a9a9a9" />
-                </View>
-            )
-        }
-    }
+
 
     _searchText(text) {
         this.setState({ textSearch: text })
@@ -32,11 +25,26 @@ class Search extends React.Component {
     _loadFilms = () => {
         if (this.state.textSearch.length > 0) {
             this.setState({ isLoading: true })
-            getFilmsFromApiWithSearchedText(this.state.textSearch).then(data => this.setState({ films: data.results, isLoading: false }));
-            this.setState({ textSearch: " " })
+            getFilmsFromApiWithSearchedText(this.state.textSearch, this.page + 1).then(data => {
+                this.page = data.page
+                this.totalePages = data.total_pages
+                this.setState({ films: [...this.state.films, ...data.results], isLoading: false })
+            });
+            //this.setState({ textSearch: " " })
         }
 
     }
+
+    _searchFilms = () => {
+        this.page = 0
+        this.totalePages = 0
+        this.setState({ films: [] }, () => {
+            console.log(this.state.films.length)
+            this._loadFilms()
+
+        })
+    }
+
 
     _setText = (textInput) => {
         this._searchText(textInput)
@@ -47,22 +55,34 @@ class Search extends React.Component {
         return (
             <View style={styles.main_container}>
                 <Text style={styles.titleText}>
-                    Rechercher un film
+                    Chercher un film
                 </Text>
                 <TextInput style={styles.textinput}
-                    value={this.state.textSearch}
+                    //value={this.state.textSearch}
                     onChangeText={(filmName) => { this._setText(filmName) }}
                     onSubmitEditing={() => this._loadFilms()}
                     placeholder='Titre du film'
                 />
-                <Button title="Rechercher" color='#e76526' onPress={this._loadFilms} />
+                <Button title="Rechercher" color='#e76526' onPress={() => this._searchFilms()} />
 
                 <FlatList
                     data={this.state.films}
                     keyExtractor={(item) => item.id.toString()}
                     renderItem={({ item }) => <FilmItem film={item} />}
+                    onEndReachedThreshold={0.5}
+                    onEndReached={() => {
+                        if (this.page < this.totalePages) {
+                            this._loadFilms()
+                        }
+                    }
+                    }
                 />
-                {this._showLoading}
+                {this.state.isLoading ?
+                    <View style={styles.load_container}>
+                        <ActivityIndicator size="large" color="#a9a9a9" />
+                    </View> :
+                    null
+                }
 
             </View>
         )

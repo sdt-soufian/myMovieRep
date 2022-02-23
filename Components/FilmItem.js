@@ -17,7 +17,7 @@ class FilmItem extends React.Component {
                 />
                 <View style={styles.content_container}>
                     <View style={styles.header_container}>
-                        <Text style={styles.title_text}>{this.banana.title}</Text>
+                        <Text style={styles.title_text}>{this.banana.original_title}</Text>
                         <Text style={styles.vote_text}>{this.banana.vote_average}</Text>
                     </View>
                     <View style={styles.description_container}>
