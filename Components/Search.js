@@ -50,10 +50,12 @@ class Search extends React.Component {
         this._searchText(textInput)
     }
 
-    _getId = (id) => console.log(`Detail Film : ${id}`)
+    _getId = (idFilm) => {
+        console.log(`Detail Film : ${idFilm}`)
+        this.props.navigation.navigate("FilmDetail", { setIdFilm: idFilm })
+    }
 
     render() {
-        console.log(this.state.isLoading);
         return (
             <View style={styles.main_container}>
                 <Text style={styles.titleText}>
