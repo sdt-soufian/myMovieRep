@@ -1,16 +1,20 @@
 // Components/FilmItem.js
 
 import React from 'react'
-import { StyleSheet, View, Text, Image } from 'react-native'
+import { StyleSheet, View, Text, Image, Button } from 'react-native'
+import { TouchableOpacity } from 'react-native-gesture-handler'
 import { getImageFromApi } from '../API/TMDBApi'
 
 class FilmItem extends React.Component {
     banana = this.props.film
+    //filmDetail = this.props.getIdFilm
+
+    _showId = () => this.props.getIdFilm(this.banana.id)
 
     render() {
         //const banana = this.props.banana
         return (
-            <View style={styles.main_container}>
+            <TouchableOpacity style={styles.main_container} onPress={this._showId}>
                 <Image
                     style={styles.image}
                     source={{ uri: getImageFromApi(this.banana.poster_path) }}
@@ -28,7 +32,7 @@ class FilmItem extends React.Component {
                         <Text style={styles.date_text}>{this.banana.release_date}</Text>
                     </View>
                 </View>
-            </View>
+            </TouchableOpacity>
         )
     }
 }
@@ -87,7 +91,8 @@ const styles = StyleSheet.create({
         color: '#666666'
     },
     date_container: {
-        flex: 1
+        flex: 1,
+
     },
     date_text: {
         textAlign: 'right',

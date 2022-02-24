@@ -50,6 +50,8 @@ class Search extends React.Component {
         this._searchText(textInput)
     }
 
+    _getId = (id) => console.log(`Detail Film : ${id}`)
+
     render() {
         console.log(this.state.isLoading);
         return (
@@ -68,7 +70,7 @@ class Search extends React.Component {
                 <FlatList
                     data={this.state.films}
                     keyExtractor={(item) => item.id.toString()}
-                    renderItem={({ item }) => <FilmItem film={item} />}
+                    renderItem={({ item }) => <FilmItem film={item} getIdFilm={this._getId} />}
                     onEndReachedThreshold={0.5}
                     onEndReached={() => {
                         if (this.page < this.totalePages) {
