@@ -1,16 +1,26 @@
 // App.js
 
 import React from 'react'
-import { StyleSheet, View } from 'react-native'
+import { StyleSheet, View, SafeAreaView, LogBox } from 'react-native'
 import Search from './Components/Search'
+import Navigation from './Navigation/Navigation'
+//import SafeAreaView from 'react-native-safe-area-view';
+LogBox.ignoreLogs([
+  "[react-native-gesture-handler] Seems like you\'re using an old API with gesture components, check out new Gestures system!",
+]);
+
+
 
 export default class App extends React.Component {
   render() {
     return (
-      <View style={styles.container}>
-        <Search />
-      </View>
-
+      <SafeAreaView style={{ flex: 1 }}>
+        <View style={styles.container}>
+          {/*<Navigation />*/}
+          {/*<Search />*/}
+          <Navigation />
+        </View>
+      </SafeAreaView>
     )
   }
 }
